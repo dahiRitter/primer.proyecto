@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Componentes globales
+import { SharedModule } from './modules/shared/shared.module';
+import { AutentificaciónModule } from './modules/autentificación/autentificación.module'; // Asegúrate de importar AutentificaciónModule
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SharedModule,
+    AutentificaciónModule // Importa AutentificaciónModule
   ],
   providers: [],
   bootstrap: [AppComponent]
