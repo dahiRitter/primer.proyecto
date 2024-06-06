@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-<<<<<<< HEAD
+
 import { InicioComponent } from './inicio/inicio.component';
 import { ProductosComponent } from './modules/productos/pages/productos/productos.component';
 import { AlimentacionComponent } from './modules/productos/pages/alimentacion/alimentacion.component';
@@ -36,10 +36,10 @@ path:"",loadChildren:()=>import('./modules/inicio/inicio.module').then(m=>m.Inic
   path:"",loadChildren:()=>import('./modules/productos/productos.module').then(m=>m.ProductosModule)
 }
 ];
-=======
 
-const routes: Routes = [];
->>>>>>> 42136bb3ac16fe0c1fc802391cc73927ae8e87c5
+
+
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

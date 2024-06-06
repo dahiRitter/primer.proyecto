@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-<<<<<<< HEAD
+
 import { InicioComponent } from './inicio/inicio.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,16 +22,6 @@ import { AutentificaciónModule } from './modules/autentificación/autentificaci
     BrowserAnimationsModule,
     SharedModule,
     AutentificaciónModule // Importa AutentificaciónModule
-=======
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
->>>>>>> 42136bb3ac16fe0c1fc802391cc73927ae8e87c5
   ],
   providers: [],
   bootstrap: [AppComponent]
