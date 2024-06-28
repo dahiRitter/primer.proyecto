@@ -3,35 +3,37 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { InicioComponent } from './inicio/inicio.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Componentes globales
+// COMPONENTES GLOBALES
 import { SharedModule } from './modules/shared/shared.module';
-import { AutentificaciónModule } from './modules/autentificación/autentificación.module'; // Asegúrate de importar AutentificaciónModule
 
-import { environments } from 'src/environments/environments';//es para la 
-import {AngularFireModule} from '@angular/fire/compat';//en para la autentificacion
-import{AngularFireAuthModule} from '@angular/fire/compat/auth'; 
-import{AngularFireStorageModule}from '@angular/fire/compat/storage'
+// VINCULACIONES/ IMPORTACIONES CON FIREBASE
+import { environments } from 'src/environments/environments';
+import { AngularFireModule } from '@angular/fire/compat'; // Es para el Cloud Firestore
+import { AngularFireAuthModule } from '@angular/fire/compat/auth'; // Es para la Autentificación
+import { AngularFireStorageModule } from '@angular/fire/compat/storage'; // Es para la BD de archivos e imágenes
 
+/** 
+ * npm install firebase --force
+ * npm install @angular/fire --save --force
+*/
 
-//
 @NgModule({
   declarations: [
-    AppComponent,
-    InicioComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    // COMPONENTES GLOBALES
     SharedModule,
-    AutentificaciónModule,// Importa AutentificaciónModule
-
-    AngularFireAuthModule,
+    // Inicializa firebase en nuestro proyecto
     AngularFireModule.initializeApp(environments.firebaseConfig),
+    // Autentificación
+    AngularFireAuthModule,
+    // Storage -> BD de imágenes 
     AngularFireStorageModule
   ],
   providers: [],

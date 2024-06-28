@@ -1,0 +1,28 @@
+.example-spacer{
+    flex:1 1 auto;
+}
+
+
+/**/
+@media (min-width:300px)and (max-width:700px){
+    mat-toolbar{
+        background-color: pink;
+    }
+    #menuInicio{
+        display: none;
+    }
+    #menuProducto{
+        display: none;
+    }
+}
+
+/*declaremos con palabra reservada*/
+@media (min-width: 700px){
+    mat-toolbar{
+
+        background-color: blueviolet;
+    }
+    #menuSecciones{
+        display: none;
+    }
+}

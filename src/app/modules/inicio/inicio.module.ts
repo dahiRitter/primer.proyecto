@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { InicioRoutingModule } from './inicio-routing.module';
-import { InicioComponent } from './page/inicio/inicio.component';
+
+// VISTA - PÁGINA - INTERFAZ DEL USUARIO
+import { InicioComponent } from './pages/inicio/inicio.component';
+
+// COMPONENTES LOCALES
 import { CardComponent } from './components/card/card.component';
-import { MatInputModule } from '@angular/material/input';
+
+// COMPONENTES QUE IMPORTAMOS DESDE MATERIAL
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
-
 
 @NgModule({
   declarations: [
@@ -18,7 +21,6 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     InicioRoutingModule,
-    MatInputModule,
     MatButtonModule,
     MatCardModule
   ],

@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-//component locales
+// COMPONENTES LOCALES
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 
-//componentes importados de material
-import { AppRoutingModule } from 'src/app/app-routing.module';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
+// COMPONENTES IMPORTADOS DE MATERIAL
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
 
+// RUTAS GENERALES DE TODOS LOS MÓDULOS
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatButtonModule,
     MatToolbarModule,
     MatMenuModule
-
   ],
-  exports:[
+  exports: [
     NavbarComponent,
     FooterComponent,
     MatIconModule,
