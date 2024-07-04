@@ -3,6 +3,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from '../../services/auth.service';
 import { FirestoreService } from 'src/app/modules/shared/services/firestore.service';
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -109,6 +110,40 @@ export class InicioSesionComponent {
       email: this.usuarioIngresado.email,
       password: this.usuarioIngresado.password
     }
+
+    try{
+      const usuarioBD =await this.servicioAuth.obtenerUsuario(credenciales.email);
+      //! -> si es diferente
+      //.empty-> metodo
+      if(!usuarioBD || usuarioBD.empty){
+        alert('el correo electronico no esta registrado.');
+        this.limpiarInputs();
+        return;
+      }
+      /**
+       * primer documento (registro) en la coleccion de usuarios que se obt6iene desde la consulta.
+       */
+      const usuarioDoc = usuarioBD.docs[0];
+
+      /**
+       * extrae los datos del documento en formas de objeto y especifica como un tipo
+       * 'usuario'-> haciendo eferencia a nuestra interfas de usuario
+       */
+
+      const usuarioData = usuarioDoc.data() as Usuario;
+
+      const hashedPassword = CryptoJS.SHA256(credenciales.password).toString();
+
+      if(hashedPassword !== usuarioData.password){
+        alert("contraseña incorrecta");
+        this.usuarioIngresado.password = '';
+        return;
+      }
+
+    } catch(error){
+      this.limpiarInputs();
+    }
+
 
     const res = await this.servicioAuth.iniciarSesion(credenciales.email, credenciales.password)
       .then(res => {
