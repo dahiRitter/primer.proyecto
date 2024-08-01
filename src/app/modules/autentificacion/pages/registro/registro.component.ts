@@ -8,6 +8,8 @@ import { FirestoreService } from 'src/app/modules/shared/services/firestore.serv
 import { Router } from '@angular/router';
 //importamos paqueteria de criptacion
 import * as CryptoJS from 'crypto-js';
+//importamos paqueteria de Sweetalert para alertas personalizadas
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro',
@@ -68,7 +70,11 @@ export class RegistroComponent {
     const res = await this.servicioAuth.registrar(credenciales.email, credenciales.password)
     // El método THEN nos devuelve la respuesta esperada por la promesa
     .then(res => {
-      alert('Ha agregado un usuario con éxito :)');
+      Swal.fire({
+        title: "buen trabajo!",
+        text: "se pudo registrar con exito!",
+        icon: "success"
+      });
 
       // Accedemos al servicio de rutas -> método navigate
       // método NAVIGATE = permite dirigirnos a diferentes vistas
@@ -76,7 +82,11 @@ export class RegistroComponent {
     })
     // El método CATCH toma una falla y la vuelve un ERROR
     .catch(error => {
-      alert('Hubo un problema al registrar un nuevo usuario :(');
+      Swal.fire({
+        title: "oh no!",
+        text: "hubo un problema al registrar el nuevo usuario!",
+        icon: "error"
+      });
     })
 
     const uid = await this.servicioAuth.obtenerUid();

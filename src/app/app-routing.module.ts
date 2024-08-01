@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InicioComponent } from './modules/inicio/pages/inicio/inicio.component';
+import { AdminModule } from './modules/admin/admin.module';
+
 
 // Son las encargadas de tener todas las rutas de la página
 const routes: Routes = [
@@ -20,6 +22,9 @@ const routes: Routes = [
   },
   {
     path:"",loadChildren:()=>import('./modules/autentificacion/autentificacion.module').then(m=>m.AutentificacionModule)
+  },
+  {
+    path:"",loadChildren:()=>import('./modules/admin/admin.module').then(m=>AdminModule)
   }
 ];
 
