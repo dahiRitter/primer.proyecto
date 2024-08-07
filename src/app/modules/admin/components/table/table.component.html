@@ -34,3 +34,65 @@
         </tr>
     </tbody>
 </table>
+
+<!-- BOTON PARA AGREGAR PRODUCTOS -->
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#agregarProducto">
+    Launch demo modal
+  </button>
+  
+  <!-- MODAL PARA AGREGAR PRODUCTOS -->
+  <div class="modal fade" id="agregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ingrese un nuevo producto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!--CUERPO DEL MODAL-->
+        <div [formGroup]="producto" class="modal-body">
+
+        <div class="mb-3">
+        <label class="form-label">Ingrese un producto:</label>
+        <imput class="form-control" type="text" formControlName="nombre" placeholder="ej_ caja"></imput>
+    </div>
+        <div class="mb-3">
+            <label class="form-label">Ingrese el Precio:</label>
+            <imput class="form-control" type="number" formControlName="precio" placeholder="..."></imput>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">seleccione una descripcion</label>
+            <imput class="form-control" type="text" formControlName="precio" placeholder="e"></imput>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">seleccione una categoria</label>
+            <select class="form-control form-control" formControlName="categorias">
+                <option selected> Elija una categoria</option>
+                <option value="alimentacion">alimentacion</option>
+                <option value="indumentaria">indumentaria</option>
+                <option value="juguetes">juguetes</option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ingrese una imagen</label>
+            <imput class="form-control" type="text" formControlName="imagen" placeholder="ingrese vinculo de la una imagen"></imput>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ingrese texto alternativo:</label>
+            <imput class="form-control" type="text" formControlName="alt" placeholder="ingrese un texto alternativo"></imput>
+        </div>
+
+
+        </div>
+        <!--ACCIONES DEL MODAL-->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Guardar</button>
+          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
