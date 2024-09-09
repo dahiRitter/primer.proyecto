@@ -128,9 +128,12 @@ export class TableComponent {
     this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
     .then(producto =>{
       alert("el producto fue mdificado con exito.");
+       // Limpiamos formulario para agregar nuevos productos
+       this.producto.reset();
     })
     .catch(error =>{
       alert("hubo un problema al modificar el poducto.");
+      this.producto.reset();
     })
 
   }

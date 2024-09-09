@@ -34,4 +34,22 @@ export class NavbarComponent {
     this.logueado = true;
 }
 
+// funcion para MODO OSCURO
+
+cambiarFondo(){
+  let toggle: HTMLInputElement | null = document.getElementById('toggle')as HTMLInputElement
+  let label_toggle: HTMLElement | null = document.getElementById('label_toggle')as HTMLElement
+
+  if(toggle){
+    let checked: boolean = toggle.checked;
+    document.body.classList.toggle('dark', checked)
+
+    if(checked){
+      label_toggle!.innerHTML ='<i class="fa-regular fa-sun"></i>'; 
+    }else{
+      label_toggle!.innerHTML ='<i class="fa-regular fa-moon"></i>'
+    }
+  }
+}
+
 }
