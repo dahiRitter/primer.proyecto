@@ -15,7 +15,10 @@ export class TableComponent {
 
   //variable va a tomar el producto
   productoSeleccionado!: Producto;
- 
+
+  nombreImagen!: string; // obtener nombre de la imagen
+  imagen!: string;
+
   //visible para manejar el estado de edicion y eliminacion del producto
   modalVisibleProducto: boolean = false;
 
@@ -31,23 +34,23 @@ export class TableComponent {
     nombre: new FormControl('', Validators.required),
     precio: new FormControl(0, Validators.required),
     descripcion: new FormControl('', Validators.required),
-    categoria:new FormControl('', Validators.required),
-    imagen:new FormControl('', Validators.required),
-    alt:new FormControl('', Validators.required),
+    categoria: new FormControl('', Validators.required),
+    //imagen:new FormControl('', Validators.required),
+    alt: new FormControl('', Validators.required),
   })
 
-  constructor(public servicioCrud: CrudService){}
+  constructor(public servicioCrud: CrudService) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     //suscribe -> notifica constantemente los cambios actuales del sistema.
     this.servicioCrud.obtenerProductos().subscribe(producto => {
       this.coleccionProductos = producto;
     })
   }
 
-  async agregarProducto(){
+  async agregarProducto() {
     //validamos los valores del producto agregado
-    if(this.producto.valid){
+    if (this.producto.valid) {
       let nuevoProducto: Producto = {
         //idProducto no se toma porque es generado por la BD y no por el usuario
         idProducto: '',
@@ -56,49 +59,61 @@ export class TableComponent {
         descripcion: this.producto.value.descripcion!,
         precio: this.producto.value.precio!,
         categoria: this.producto.value.categoria!,
-        imagen: this.producto.value.imagen!,
+        //imagen ahora toma la URL generada desde storage
+        imagen: '',
         alt: this.producto.value.alt!
 
       }
+      //enviamos nombre y url de la imagen; 
+      await this.servicioCrud.subirImagen(this.nombreImagen, this.imagen, "productos")
+        .then(resp => {
+          //encapsulamos
+          this.servicioCrud.obtenerUrlImagen(resp)
+            .then(url =>{
+            //ahora metodo crearProducto recibe los datos de formulario
+            await this.servicioCrud.crearProductos(nuevoProducto, url)
+              .then(producto => {
+                alert("ha agregado un nuevo producto con exito");
+                this.producto.reset();
+              })
 
-      await this.servicioCrud.crearProductos(nuevoProducto)
-      .then(producto => {
-        alert("ha agregado un nuevo producto con exito");
-      })
+              .catch(error => {
+                alert("Hubo un problema al agregar un nuevo producto");
+              });
+          })
+        })
 
-      .catch(error => {
-        alert("Hubo un problema al agregar un nuevo producto");
-      });
-      
-    
+
+
+
 
     }
   }
-  
+
   //funcion para alertar al usuario del producto que desea eliminar
-  mostrarBorrar(productoSeleccionado: Producto){
+  mostrarBorrar(productoSeleccionado: Producto) {
     //abre el modal
     this.modalVisibleProducto = true;
-     
+
     //toma los valores del producto elegido
     this.productoSeleccionado = productoSeleccionado;
-  
+
   }
   //funcion para eliminar definitinitivamente al producto
-  borrarProducto(){
+  borrarProducto() {
     this.servicioCrud.eliminarProductos(this.productoSeleccionado.idProducto)
-    .then(respuesta => {
-      alert("el producto se ha eliminado corrctamente")
-    })
-    .catch(error => {
-      alert("no se ha podido eliminar el producto \n"+error);
-    })
+      .then(respuesta => {
+        alert("el producto se ha eliminado corrctamente")
+      })
+      .catch(error => {
+        alert("no se ha podido eliminar el producto \n" + error);
+      })
   }
-  borrarEditar(){
+  borrarEditar() {
 
   }
   //funcion
-  mostrarProducto(productoSeleccionado: Producto){
+  mostrarProducto(productoSeleccionado: Producto) {
     this.productoSeleccionado = productoSeleccionado;
 
     //enviar o "setear"
@@ -110,13 +125,13 @@ export class TableComponent {
       imagen: productoSeleccionado.imagen,
       alt: productoSeleccionado.alt
     })
- 
+
   }
 
-  editarProducto(){
+  editarProducto() {
     let datos: Producto = {
       //solo el id toma y deja igual su valor
-      idProducto:this.productoSeleccionado.idProducto,
+      idProducto: this.productoSeleccionado.idProducto,
       nombre: this.producto.value.nombre!,
       descripcion: this.producto.value.descripcion!,
       precio: this.producto.value.precio!,
@@ -126,15 +141,15 @@ export class TableComponent {
     }
 
     this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
-    .then(producto =>{
-      alert("el producto fue mdificado con exito.");
-       // Limpiamos formulario para agregar nuevos productos
-       this.producto.reset();
-    })
-    .catch(error =>{
-      alert("hubo un problema al modificar el poducto.");
-      this.producto.reset();
-    })
+      .then(producto => {
+        alert("el producto fue mdificado con exito.");
+        // Limpiamos formulario para agregar nuevos productos
+        this.producto.reset();
+      })
+      .catch(error => {
+        alert("hubo un problema al modificar el poducto.");
+        this.producto.reset();
+      })
 
   }
 }
