@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Producto } from 'src/app/moduls/producto';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs';
+
 //importaciones para el manejo de archivos y referencias de estorage
-import { getDownloadURL, getStorage, ref, UploadResult, uploadString, deleteObject } from 'firebase/storage';
+
+//import { getDownloadURL, getStorage, ref, UploadResult, uploadString, deleteObject } from 'firebase/storage';
 
 /*
   getDownloadURL: --> para obtener la URL de descarga de una imagen subida
@@ -19,12 +21,12 @@ import { getDownloadURL, getStorage, ref, UploadResult, uploadString, deleteObje
 })
 export class CrudService {
   //definimos coleccion para los productos de la web del tipo producto
-  private productosCollection: AngularFirestoreCollection<Producto>
+  /*private productosCollection: AngularFirestoreCollection<Producto>
 
   //definimos variable "respuesta" que podra subir resultados
   private respuesta!: UploadResult;
   //Inicializamos servicio storage
-  private storage = getStorage();
+  private storage = getStorage();*/        //ESTO!
 
   constructor(private database: AngularFirestore) {
     //referenciamos coleccion productos y sera subida como "producto" a firebase
@@ -32,7 +34,7 @@ export class CrudService {
   }
 
   //CREAR productos --> obtiene datos del formulario y sera subida como "producto" a firebase
-  crearProductos(producto: Producto, url: string) {
+  //crearProductos(producto: Producto, url: string) { ESTO!!
     return new Promise(async (resolve, reject) => {
       try {
         //creamos numero identificaivo para el priducto en la base de datos
@@ -42,7 +44,7 @@ export class CrudService {
         producto.idProducto = idProducto;
 
         //asignamos URL recibida del parametro al atributo imagen de la interfaz producto
-        producto.imagen = url;
+        //producto.imagen = url;      ESTO!!
 
         const resultado = await this.productosCollection.doc(idProducto).set(producto);
 
@@ -70,7 +72,7 @@ export class CrudService {
   }
 
   //ELIMINAR productos
-  eliminarProductos(idproducto: string, imagenURL: string) {
+  /*eliminarProductos(idproducto: string, imagenURL: string) {
 
     return new Promise((resolve, rejet) => {
       try {
@@ -89,7 +91,7 @@ export class CrudService {
           })
           .catch(error => {
             rejet("error al eliminar la imagen: \n" + error);
-          });
+          });*/                                            //ESTO!
 
 
       }
@@ -100,7 +102,7 @@ export class CrudService {
     })
   }
   //OBTENER URL DE LAS IMAGENES
-  obtenerUrlImagen(respuesta: UploadResult) {
+  /*obtenerUrlImagen(respuesta: UploadResult) {
     //retorna url obtenida como REFERENCIA
     return getDownloadURL(respuesta.ref);
   }
@@ -113,7 +115,7 @@ export class CrudService {
    */
 
   //SUBIR imagenes con sus referencias
-  async subirImagen(nombre: string, imagen: any, ruta: string) {
+  /*async subirImagen(nombre: string, imagen: any, ruta: string) {
     try {
       //crear una referencia de la imagen
       //accedea a storage (almacenamiento), ruta (carpeta), nombre(nombreImagen).
