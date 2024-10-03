@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class TableComponent {
 
-  //
+  //crear una coleccion de productos del tipo producto -> lo definimos como un array
   coleccionProductos: Producto[] = [];
 
   //variable va a tomar el producto
@@ -21,6 +21,7 @@ export class TableComponent {
 
   //visible para manejar el estado de edicion y eliminacion del producto
   modalVisibleProducto: boolean = false;
+
 
 
 
@@ -69,18 +70,20 @@ export class TableComponent {
         .then(resp => {
           //encapsulamos
           this.servicioCrud.obtenerUrlImagen(resp)
-            .then(url =>{
-            //ahora metodo crearProducto recibe los datos de formulario
-            await this.servicioCrud.crearProductos(nuevoProducto, url)
-              .then(producto => {
-                alert("ha agregado un nuevo producto con exito");
-                this.producto.reset();
-              })
+            .then(url => {
+              //ahora metodo crearProducto recibe los datos de formulario
+              this.servicioCrud.crearProductos(nuevoProducto, url)
+                .then(producto => {
+                  alert("ha agregado un nuevo producto con exito");
+                  //limpiamos forfulario para agregar nuevos productos
+                  this.producto.reset();
+                })
 
-              .catch(error => {
-                alert("Hubo un problema al agregar un nuevo producto");
-              });
-          })
+                .catch(error => {
+                  alert("Hubo un problema al agregar un nuevo producto");
+                  this.producto.reset();
+                });
+            })
         })
 
 
@@ -101,7 +104,8 @@ export class TableComponent {
   }
   //funcion para eliminar definitinitivamente al producto
   borrarProducto() {
-    this.servicioCrud.eliminarProductos(this.productoSeleccionado.idProducto)
+    //envia ID del producto eliminado y la ubicacion en el almacenamiento de STORAGE
+    this.servicioCrud.eliminarProductos(this.productoSeleccionado.idProducto, this.productoSeleccionado.imagen)
       .then(respuesta => {
         alert("el producto se ha eliminado corrctamente")
       })
@@ -122,7 +126,7 @@ export class TableComponent {
       precio: productoSeleccionado.precio,
       descripcion: productoSeleccionado.descripcion,
       categoria: productoSeleccionado.categoria,
-      imagen: productoSeleccionado.imagen,
+      //imagen: productoSeleccionado.imagen,
       alt: productoSeleccionado.alt
     })
 
@@ -136,20 +140,83 @@ export class TableComponent {
       descripcion: this.producto.value.descripcion!,
       precio: this.producto.value.precio!,
       categoria: this.producto.value.categoria!,
-      imagen: this.producto.value.imagen!,
+      imagen: this.productoSeleccionado.imagen!,
       alt: this.producto.value.alt!
+
     }
 
+    //verificamos que el usuario ingrese una nueva imagen o no
+    if (this.imagen) {
+      this.servicioCrud.subirImagen(this.nombreImagen, this.imagen, "productos")
+        .then(resp => {
+          this.servicioCrud.obtenerUrlImagen(resp)
+            .then(url => {
+
+              //actualizamos url de la imagen en los datos del formulario
+              datos.imagen = url;
+
+              //Aactualizamos los datos dende el formulario de edicion
+              this.actualizarProducto(datos);
+
+              //vaciamos casillas del formulario
+              this.producto.reset();
+            })
+            .catch(error => {
+              alert("hubo un problema al subir la imagen \n" + error);
+              this.producto.reset();
+
+            })
+        })
+    } else {
+      /**
+       * actualizamos formulario con los datos re
+       */
+      this.actualizarProducto(datos);
+    }
+
+
+
+  }
+  //ACTUALIZA  la info ya existente de los productos
+  actualizarProducto(datos: Producto) {
     this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
       .then(producto => {
         alert("el producto fue mdificado con exito.");
-        // Limpiamos formulario para agregar nuevos productos
         this.producto.reset();
       })
       .catch(error => {
         alert("hubo un problema al modificar el poducto.");
-        this.producto.reset();
       })
-
   }
+
+  //Metodo para cargar imagenes
+  cargarImagen(event: any) {
+    let archivo = event.target.files[0];
+    //variable para crear un nuevo objeto de tipo "archivo" o "file" y poder leerlo
+    let reader = new FileReader();
+    if (archivo != undefined) {
+      /*
+      llamamos al metodo readAsDataUrl para leer toda la info recibida
+      enviamos como parametro el archivo porque sera xq sera el encargado de tener la info
+      ingresada por el usuario
+      */
+      reader.readAsDataURL(archivo);
+      //definimos que haremos con la funcion mediante funcion fecha
+      reader.onloadend = () => {
+        let url = reader.result;
+
+        //verificamos que la "url" sea existente y diferente a "nula"
+        if (url != null) {
+
+          //definimos nimbre de la imagen con atributo "name" del imput
+          this.nombreImagen = archivo.name;
+
+          //definimos ruta de la imagen segun el  URL recibida en formato cadena (string)
+          this.imagen = url.toString();
+        }
+      }
+
+    }
+  }
+
 }
