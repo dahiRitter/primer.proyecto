@@ -26,7 +26,7 @@ export class RegistroComponent {
     nombre: '',
     apellido: '',
     email: '',
-    rol: '',
+    rol: 'vis', // -> designa un rol por defecto para los usuarios que se registran
     password: ''
   }
 
@@ -124,7 +124,7 @@ export class RegistroComponent {
       nombre: this.usuarios.nombre = '',
       apellido: this.usuarios.apellido = '',
       email: this.usuarios.email = '',
-      rol: this.usuarios.rol = '',
+      rol: this.usuarios.rol = 'vis',
       password: this.usuarios.password = ''
     }
   }

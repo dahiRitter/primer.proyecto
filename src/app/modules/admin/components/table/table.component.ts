@@ -16,11 +16,8 @@ export class TableComponent {
   //variable va a tomar el producto
   productoSeleccionado!: Producto;
 
-
-//esto lo hicimos la clase pasada que no pude hacer los cambios
-
-  //nombreImagen!: string; // obtener nombre de la imagen
-  //imagen!: string; // obtener la ruta de la imagen 
+  nombreImagen!: string; // obtener nombre de la imagen
+  imagen!: string; // obtener la ruta de la imagen 
 
 
 
@@ -45,10 +42,10 @@ export class TableComponent {
     alt: new FormControl('', Validators.required),
   })
 
-  //constructor(public servicioCrud: CrudService) { }   esto tambien
+  constructor(public servicioCrud: CrudService) { }  
 
-  //ngOnInit(): void {
-    //suscribe -> notifica constantemente los cambios actuales del sistema.   ESTO
+  ngOnInit(): void {
+    //suscribe -> notifica constantemente los cambios actuales del sistema.   
     this.servicioCrud.obtenerProductos().subscribe(producto => {
       this.coleccionProductos = producto;
     })
@@ -71,7 +68,7 @@ export class TableComponent {
 
       }
       //enviamos nombre y url de la imagen; 
-     /* await this.servicioCrud.subirImagen(this.nombreImagen, this.imagen, "productos")
+     await this.servicioCrud.subirImagen(this.nombreImagen, this.imagen, "productos")
         .then(resp => {
           //encapsulamos
           this.servicioCrud.obtenerUrlImagen(resp)
@@ -82,7 +79,7 @@ export class TableComponent {
                   alert("ha agregado un nuevo producto con exito");
                   //limpiamos forfulario para agregar nuevos productos
                   this.producto.reset();
-                })*/               //ESTOOO
+                })
 
                 .catch(error => {
                   alert("Hubo un problema al agregar un nuevo producto");
@@ -99,7 +96,7 @@ export class TableComponent {
   }
 
   //funcion para alertar al usuario del producto que desea eliminar
- // mostrarBorrar(productoSeleccionado: Producto) {           ESTOOOO!!!!
+  mostrarBorrar(productoSeleccionado: Producto) {         
     //abre el modal
     this.modalVisibleProducto = true;
 
@@ -108,15 +105,15 @@ export class TableComponent {
 
   }
   //funcion para eliminar definitinitivamente al producto
-  //borrarProducto() {        ESTO!!
+  borrarProducto() {    
     //envia ID del producto eliminado y la ubicacion en el almacenamiento de STORAGE
     this.servicioCrud.eliminarProductos(this.productoSeleccionado.idProducto, this.productoSeleccionado.imagen)
-      /*.then(respuesta => {
+      .then(respuesta => {
         alert("el producto se ha eliminado corrctamente")
       })
       .catch(error => {
         alert("no se ha podido eliminar el producto \n" + error);
-      })*/     //ESTO!!
+      })     
   }
   borrarEditar() {
 
@@ -137,7 +134,7 @@ export class TableComponent {
 
   }
 
- // editarProducto() {    ESTO!
+  editarProducto() {    
     let datos: Producto = {
       //solo el id toma y deja igual su valor
       idProducto: this.productoSeleccionado.idProducto,
@@ -185,13 +182,13 @@ export class TableComponent {
   //ACTUALIZA  la info ya existente de los productos
   actualizarProducto(datos: Producto) {
     this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
-    /*  .then(producto => {
+      .then(producto => {
         alert("el producto fue mdificado con exito.");
         this.producto.reset();
       })
       .catch(error => {
         alert("hubo un problema al modificar el poducto.");
-      })*/
+      })
   }
 
   //Metodo para cargar imagenes
