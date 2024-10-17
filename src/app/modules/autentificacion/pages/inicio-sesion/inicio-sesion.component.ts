@@ -70,34 +70,36 @@ export class InicioSesionComponent {
       }
 
       const res = await this.servicioAuth.iniciarSesion(credenciales.email, credenciales.password)
-      .then(res => {
-        alert('¡Se ha logueado con éxito! :D');
-        //almacena el rol del usuario en el servicio de autentificacion
-        this.servicioAuth.enviarRolUsuario(usuarioData.rol);
+        .then(res => {
+          alert('¡Se ha logueado con éxito! :D');
+          //almacena el rol del usuario en el servicio de autentificacion
+          this.servicioAuth.enviarRolUsuario(usuarioData.rol);
 
-        if (usuarioData.rol === "admin") {
-          console.log("inicio de sesion de usuario administrador")
+          if (usuarioData.rol === "admin") {
+            console.log("inicio de sesion de usuario administrador")
 
-          this.servicioRutas.navigate(['/admin']);
-        } else {
-          console.log("inicio de sesion de usuario visitante")
-        }
+            this.servicioRutas.navigate(['/admin']);
+          } else {
+            console.log("inicio de sesion de usuario visitante")
 
-        this.servicioRutas.navigate(['/inicio']);
-      })
+          this.servicioRutas.navigate(['/inicio']);
 
-      .catch(err => {
-        alert('Hubo un problema al iniciar sesión :( ' + err);
+          }
 
-        this.limpiarInputs();
-      })
+        })
+
+        .catch(err => {
+          alert('Hubo un problema al iniciar sesión :( ' + err);
+
+          this.limpiarInputs();
+        })
 
     } catch (error) {
       this.limpiarInputs();
     }
 
 
-    
+
   }
 
   // Función para vaciar el formulario

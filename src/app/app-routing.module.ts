@@ -27,10 +27,9 @@ const routes: Routes = [
     path: "", loadChildren: () => import('./modules/autentificacion/autentificacion.module').then(m => m.AutentificacionModule)
   },
   {
-    path: "", loadChildren: () => import('./modules/admin/admin.module').then(m => AdminModule),
+    path: "", loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
     //especificamos que la ruta de administrador va a ser protegida por un guardian
     //y espera un rol tipo "admin"
-    canActivate: [rutaProtegidaGuard], data: { role: 'admin' }
   }
 ];
 

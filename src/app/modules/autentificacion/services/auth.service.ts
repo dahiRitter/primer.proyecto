@@ -57,6 +57,7 @@ export class AuthService {
   async obtenerUsuario(email: string) {
     return this.servicioFirestore.collection('usuarios', ref => ref.where('email', '==', email)).get().toPromise();
   }
+  
   //FUNCION PARA CREAR ROL DE USUARIO
   obtenerRol(uid: string): Observable<string | null> {
     return this.servicioFirestore.collection('usuarios').doc(uid).valueChanges()
